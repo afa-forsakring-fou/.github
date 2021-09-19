@@ -1,0 +1,35 @@
+sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_PACKAGE_TOKEN }}
+
+      - name: Yarn cache
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_PACKAGE_TOKEN }}
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install yarn
+        run: yarn install --immutable-cache
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_PACKAGE_TOKEN }}
+
+      # Will SonarCloud change to action@main ?
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

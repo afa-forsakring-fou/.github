@@ -1,0 +1,8 @@
+{
+    "name": "Fou Sonarscan for Node-apps",
+    "description": "Template to enable sonarcloud in node-js apps. Dont forget to add an sonar-project.properties to you repo ",
+    "iconName": "example-icon",
+    "filePatterns": [
+        "sonar-project.properties"
+    ]
+}
