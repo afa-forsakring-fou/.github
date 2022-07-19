@@ -1,0 +1,8 @@
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  call:
+    uses: afa-forsakring-fou/github-actions/.github/workflows/rebase.yaml@main
+    secrets: inherit

@@ -1,0 +1,7 @@
+name: Add approval label to pull requests
+on: pull_request_review
+
+jobs:
+  call:
+    uses: afa-forsakring-fou/github-actions/.github/workflows/approved.yaml@main
+    secrets: inherit
